@@ -1,5 +1,6 @@
 .idea
 vendor
 data/
+!tests/data
 !data/.gitkeep
 .phpunit.result.cache
