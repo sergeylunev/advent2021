@@ -1,0 +1,10 @@
+version: '3.7'
+
+services: 
+    php:
+        container_name: advent
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        volumes: 
+            - ./:/data/app
