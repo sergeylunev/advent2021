@@ -2,15 +2,11 @@
 
 namespace Advent\Tests\Service\Bingo;
 
+use Advent\Service\Bingo\BingoGameService;
 use PHPUnit\Framework\TestCase;
 
 class BingoServiceTest extends TestCase
 {
-    public function setUp(): void
-    {
-        $this->bingoService = new Bingo();
-    }
-
     public function testBoardCreation(): void
     {
         $input = [
@@ -31,11 +27,12 @@ class BingoServiceTest extends TestCase
             ' 2  0 12  3  7',
         ];
 
-        $this->bingoService->createBoards($input);
+        $bingoGameService = new BingoGameService($input);
 
+        $this->assertInstanceOf(BingoGameService::class, $bingoGameService);
         $this->assertEquals(
             3,
-            $this->bingoService->getBoardsNumber()
+            $bingoGameService->getBoardsNumber()
         );
     }
 }

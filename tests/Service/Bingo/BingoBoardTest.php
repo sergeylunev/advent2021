@@ -2,6 +2,7 @@
 
 namespace Advent\Tests\Service\Bingo;
 
+use Advent\Service\Bingo\BingoBoard;
 use PHPUnit\Framework\TestCase;
 
 class BingoBoardTest extends TestCase
