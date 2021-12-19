@@ -19,7 +19,9 @@ $day3 = new \Advent\Command\Day3Command(
     $lifeSupportRatingService,
     $fileReaderService
 );
+$day4 = new \Advent\Command\Day4Command($fileReaderService);
 
 $application->add($day3);
+$application->add($day4);
 
 $application->run();
