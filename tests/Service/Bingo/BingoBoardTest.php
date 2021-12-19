@@ -66,5 +66,7 @@ class BingoBoardTest extends TestCase
 
         $board->selectNumber($winingNumber);
         $this->assertTrue($board->isWinning());
+
+        $this->assertEquals(4512, $board->boardScore());
     }
 }

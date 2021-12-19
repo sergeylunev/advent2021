@@ -8,6 +8,9 @@ class BingoBoard
     private array $selectedNumbers = [];
     private int $selectedNumbersCount = 0;
 
+    private bool $isWin = false;
+    private ?int $lastNumber = null;
+
     public function __construct(array $input)
     {
         foreach ($input as $string) {
@@ -34,9 +37,11 @@ class BingoBoard
 
     public function selectNumber(int $number): bool
     {
-        if ($this->hasNumber($number)) {
+        if ($this->hasNumber($number) && !$this->isWin) {
             $this->selectedNumbers[$this->numberIndex($number)] = 1;
             $this->selectedNumbersCount++;
+
+            $this->lastNumber = $number;
 
             return true;
         }
@@ -46,6 +51,10 @@ class BingoBoard
 
     public function isWinning(): bool
     {
+        if ($this->isWin) {
+            return true;
+        }
+
         for ($i = 0; $i < 5; $i++) {
             $winCol = $this->selectedNumbers[$i] === 1 &&
                 $this->selectedNumbers[$i + 5] === 1 &&
@@ -61,9 +70,23 @@ class BingoBoard
                 $this->selectedNumbers[$lineIdx + 4] === 1;
 
             if ($winCol || $winLine) {
+                $this->isWin = true;
+
                 return true;
             }
         }
         return false;
+    }
+
+    public function boardScore(): int
+    {
+        $sum = 0;
+        foreach ($this->selectedNumbers as $idx => $selectedNumber) {
+            if ($selectedNumber === 0) {
+                $sum += $this->numbers[$idx];
+            }
+        }
+
+        return $sum * $this->lastNumber;
     }
 }
