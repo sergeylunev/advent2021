@@ -7,7 +7,9 @@ use PHPUnit\Framework\TestCase;
 
 class BingoGameServiceTest extends TestCase
 {
-    public function testBoardCreation(): void
+    private BingoGameService $bingoGameService;
+
+    public function setUp(): void
     {
         $input = [
             '22 13 17 11  0',
@@ -27,12 +29,34 @@ class BingoGameServiceTest extends TestCase
             ' 2  0 12  3  7',
         ];
 
-        $bingoGameService = new BingoGameService($input);
+        $this->bingoGameService = new BingoGameService($input);
+    }
 
-        $this->assertInstanceOf(BingoGameService::class, $bingoGameService);
+    public function testBoardCreation(): void
+    {
+        $this->assertInstanceOf(BingoGameService::class, $this->bingoGameService);
         $this->assertEquals(
             3,
-            $bingoGameService->getBoardsNumber()
+            $this->bingoGameService->getBoardsNumber()
         );
+    }
+
+    public function testHasWinningBoard()
+    {
+        $numbersToSelect = [
+            7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21
+        ];
+
+        $winingNumber = 24;
+
+        foreach ($numbersToSelect as $number) {
+            $this->bingoGameService->checkNumber($number);
+            $this->assertFalse($this->bingoGameService->hasWinningBoard());
+        }
+
+        $this->bingoGameService->checkNumber($winingNumber);
+        $this->assertTrue($this->bingoGameService->hasWinningBoard());
+
+        $this->assertEquals(4512, $this->bingoGameService->getWinningBoardScore());
     }
 }
