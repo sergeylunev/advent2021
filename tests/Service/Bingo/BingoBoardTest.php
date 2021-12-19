@@ -35,6 +35,36 @@ class BingoBoardTest extends TestCase
         $board = new BingoBoard($input);
 
         $this->assertTrue($board->hasNumber(22));
+        $this->assertTrue($board->selectNumber(22));
+
         $this->assertFalse($board->hasNumber(50));
+        $this->assertFalse($board->selectNumber(50));
+    }
+
+    public function testBoardCanWin()
+    {
+        $input = [
+            '14 21 17 24  4',
+            '10 16 15  9 19',
+            '18  8 23 26 20',
+            '22 11 13  6  5',
+            ' 2  0 12  3  7',
+        ];
+
+        $numbersToSelect = [
+            7, 4, 9, 5, 11, 17, 23, 2, 0, 14, 21
+        ];
+
+        $winingNumber = 24;
+
+        $board = new BingoBoard($input);
+
+        foreach ($numbersToSelect as $number) {
+            $board->selectNumber($number);
+            $this->assertFalse($board->isWinning());
+        }
+
+        $board->selectNumber($winingNumber);
+        $this->assertTrue($board->isWinning());
     }
 }

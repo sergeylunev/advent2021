@@ -5,7 +5,7 @@ namespace Advent\Tests\Service\Bingo;
 use Advent\Service\Bingo\BingoGameService;
 use PHPUnit\Framework\TestCase;
 
-class BingoServiceTest extends TestCase
+class BingoGameServiceTest extends TestCase
 {
     public function testBoardCreation(): void
     {
