@@ -2,6 +2,7 @@
 
 namespace Advent\Command;
 
+use Advent\Service\Bingo\BingoGameFactory;
 use Advent\Service\Bingo\BingoService;
 use Advent\Service\FileReader;
 use Symfony\Component\Console\Command\Command;
@@ -11,12 +12,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Day4Command extends Command
 {
     private FileReader $fileReader;
+    private BingoGameFactory $bingoGameFactory;
 
     public function __construct(
-        FileReader $fileReader
+        FileReader $fileReader,
+        BingoGameFactory $bingoGameFactory
     ) {
         parent::__construct('day:4');
         $this->fileReader = $fileReader;
+        $this->bingoGameFactory = $bingoGameFactory;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -24,7 +28,7 @@ class Day4Command extends Command
         $path = __DIR__ . '/../../data/day4.1.txt';
         $data = $this->fileReader->readFile($path);
 
-        $bingoService = new BingoService($data);
+        $bingoService = new BingoService($data, $this->bingoGameFactory);
         $result = $bingoService->playGame();
 
         $output->writeln("First part:");
