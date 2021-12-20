@@ -2,6 +2,7 @@
 
 namespace Advent\Tests\Service\Bingo;
 
+use Advent\Service\Bingo\BingoBoardFactory;
 use Advent\Service\Bingo\BingoGameService;
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +30,8 @@ class BingoGameServiceTest extends TestCase
             ' 2  0 12  3  7',
         ];
 
-        $this->bingoGameService = new BingoGameService($input);
+        $bingoBoardFactory = new BingoBoardFactory();
+        $this->bingoGameService = new BingoGameService($input, $bingoBoardFactory);
     }
 
     public function testBoardCreation(): void

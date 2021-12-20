@@ -10,9 +10,14 @@ class BingoGameService
     private array $boards = [];
     private bool $hasWinningBoard = false;
     private ?BingoBoard $winningBoard = null;
+    private BingoBoardFactory $bingoBoardFactory;
 
-    public function __construct(array $input)
-    {
+    public function __construct(
+        array $input,
+        BingoBoardFactory $bingoBoardFactory
+    ) {
+        $this->bingoBoardFactory = $bingoBoardFactory;
+
         $count = 0;
         $boardRows = [];
         foreach ($input as $idx => $row) {
@@ -20,7 +25,7 @@ class BingoGameService
 
             if ($count === 4) {
                 $count = 0;
-                $this->boards[] = new BingoBoard($boardRows);
+                $this->boards[] = $bingoBoardFactory->create($boardRows);
                 $boardRows = [];
 
                 continue;
@@ -28,6 +33,7 @@ class BingoGameService
 
             $count++;
         }
+
     }
 
     public function getBoardsNumber(): int

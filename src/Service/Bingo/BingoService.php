@@ -8,16 +8,21 @@ class BingoService
 {
     private array $numbers;
     private BingoGameService $bingoGameService;
+    private BingoGameFactory $bingoGameFactory;
 
-    public function __construct(array $input)
-    {
-        $this->prepareData($input);
+    public function __construct(
+        array $input,
+        BingoGameFactory $bingoGameFactory
+    ) {
+        $this->bingoGameFactory = $bingoGameFactory;
+
+        $this->createGame($input);
     }
 
-    protected function prepareData(array $input)
+    protected function createGame(array $input)
     {
         $this->numbers = explode(',', array_shift($input));
-        $this->bingoGameService = new BingoGameService($input);
+        $this->bingoGameService = $this->bingoGameFactory->create($input);
     }
 
     public function playGame(): int
