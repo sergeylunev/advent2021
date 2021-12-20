@@ -2,6 +2,7 @@
 
 namespace Advent\Tests\Service\Bingo;
 
+use Advent\Service\Bingo\BingoBoard;
 use Advent\Service\Bingo\BingoBoardFactory;
 use Advent\Service\Bingo\BingoGameService;
 use PHPUnit\Framework\TestCase;
@@ -60,5 +61,20 @@ class BingoGameServiceTest extends TestCase
         $this->assertTrue($this->bingoGameService->hasWinningBoard());
 
         $this->assertEquals(4512, $this->bingoGameService->getWinningBoardScore());
+    }
+
+    public function testGetLastWinningBoard()
+    {
+        $numbersToSelect = [
+            7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
+        ];
+
+        foreach ($numbersToSelect as $number) {
+            $this->bingoGameService->checkNumber($number);
+        }
+
+        $result = $this->bingoGameService->getLastWinningBoard();
+        $this->assertInstanceOf(BingoBoard::class, $result);
+        $this->assertEquals(1924, $result->boardScore());
     }
 }

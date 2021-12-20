@@ -10,6 +10,7 @@ class BingoGameService
     private array $boards = [];
     private bool $hasWinningBoard = false;
     private ?BingoBoard $winningBoard = null;
+    private ?BingoBoard $lastWinningBoard = null;
     private BingoBoardFactory $bingoBoardFactory;
 
     public function __construct(
@@ -43,17 +44,16 @@ class BingoGameService
 
     public function checkNumber(int $number): void
     {
-        if ($this->hasWinningBoard()) {
-            return;
-        }
-
         foreach ($this->boards as $board) {
+            if ($board->isWinning()) {
+                continue;
+            }
+
             $board->selectNumber($number);
             if ($board->isWinning()) {
                 $this->hasWinningBoard = true;
                 $this->winningBoard = $board;
-
-                return;
+                $this->lastWinningBoard = $board;
             }
         }
     }
@@ -66,5 +66,15 @@ class BingoGameService
     public function getWinningBoardScore(): int
     {
         return $this->winningBoard->boardScore();
+    }
+
+    public function getLastWinningBoardScore(): int
+    {
+        return $this->lastWinningBoard->boardScore();
+    }
+
+    public function getLastWinningBoard(): BingoBoard
+    {
+        return $this->lastWinningBoard;
     }
 }

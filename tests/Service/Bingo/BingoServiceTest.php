@@ -19,7 +19,7 @@ class BingoServiceTest extends TestCase
         $data = $fileReader->readFile(__DIR__ . '/../../data/bingo.txt');
         $bingoService = new BingoService($data, $bingoGameFactory);
 
-        $result = $bingoService->playGame();
+        $result = $bingoService->getFirstWinningBoard();
 
         $this->assertEquals(4512, $result);
     }

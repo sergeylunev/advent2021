@@ -25,7 +25,7 @@ class BingoService
         $this->bingoGameService = $this->bingoGameFactory->create($input);
     }
 
-    public function playGame(): int
+    public function getFirstWinningBoard(): int
     {
         foreach ($this->numbers as $number) {
             $this->bingoGameService->checkNumber($number);
@@ -33,5 +33,14 @@ class BingoService
                 return $this->bingoGameService->getWinningBoardScore();
             }
         }
+    }
+
+    public function getLastWinningBoard(): int
+    {
+        foreach ($this->numbers as $number) {
+            $this->bingoGameService->checkNumber($number);
+        }
+
+        return $this->bingoGameService->getLastWinningBoardScore();
     }
 }
